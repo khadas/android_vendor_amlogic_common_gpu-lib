@@ -111,6 +111,13 @@ LOCAL_POST_INSTALL_CMD += \
 	ln -sf libOpenCL.so.1 libOpenCL.so;
 endif
 
+LOCAL_SHARED_LIBRARIES := \
+    android.hardware.graphics.common@1.0 \
+    libcutils \
+    liblog \
+    libnativewindow \
+    libz
+
 include $(BUILD_PREBUILT)
 
 endif
