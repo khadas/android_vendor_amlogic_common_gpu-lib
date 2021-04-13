@@ -37,6 +37,9 @@ else
 GPU_DRV_VERSION?=r6p1
 endif
 
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 30 && echo OK),OK)
+LOCAL_ANDROID_VERSION_NUM:=r-${GPU_DRV_VERSION}
+else
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29 && echo OK),OK)
 LOCAL_ANDROID_VERSION_NUM:=q-${GPU_DRV_VERSION}
 else
@@ -56,6 +59,7 @@ ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 22 && echo OK),OK)
 LOCAL_ANDROID_VERSION_NUM:=l-${GPU_DRV_VERSION}
 else
 LOCAL_ANDROID_VERSION_NUM:=k-${GPU_DRV_VERSION}
+endif
 endif
 endif
 endif
@@ -122,6 +126,9 @@ LOCAL_SHARED_LIBRARIES := \
     libnativewindow \
     libz
 
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 30 && echo OK),OK)
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libc++ libc libdl libgralloctypes libhidlbase libm libutils
+endif
 include $(BUILD_PREBUILT)
 
 endif
