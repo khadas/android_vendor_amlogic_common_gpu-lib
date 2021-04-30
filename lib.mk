@@ -75,9 +75,14 @@ ifeq ($(GRALLOC_USE_GRALLOC1_API),1)
 LOCAL_ANDROID_VERSION_NUM:=${LOCAL_ANDROID_VERSION_NUM}gralloc1
 endif
 
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 30 && echo OK),OK)
+LOCAL_MODULE := libGLES_meson_mali
+LOCAL_MODULE_STEM := libGLES_mali.so
+else
 LOCAL_MODULE := libGLES_mali
-LOCAL_MULTILIB := both
 LOCAL_MODULE_SUFFIX := .so
+endif
+LOCAL_MULTILIB := both
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
