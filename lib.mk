@@ -37,6 +37,10 @@ else
 GPU_DRV_VERSION?=r6p1
 endif
 
+$(info "the value of PLATFORM_SDK_VERSION is $(PLATFORM_SDK_VERSION)")
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 31 && echo OK),OK)
+LOCAL_ANDROID_VERSION_NUM:=s-${GPU_DRV_VERSION}
+else
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 30 && echo OK),OK)
 LOCAL_ANDROID_VERSION_NUM:=r-${GPU_DRV_VERSION}
 else
@@ -59,6 +63,7 @@ ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 22 && echo OK),OK)
 LOCAL_ANDROID_VERSION_NUM:=l-${GPU_DRV_VERSION}
 else
 LOCAL_ANDROID_VERSION_NUM:=k-${GPU_DRV_VERSION}
+endif
 endif
 endif
 endif
@@ -134,6 +139,10 @@ LOCAL_SHARED_LIBRARIES := \
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 30 && echo OK),OK)
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libc++ libc libdl libgralloctypes libhidlbase libm libutils
 endif
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 31 && echo OK),OK)
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 arm.graphics-V1-ndk_platform libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
+endif
+
 include $(BUILD_PREBUILT)
 
 endif
