@@ -99,6 +99,7 @@ LOCAL_MODULE_PATH    := $(TARGET_OUT_SHARED_LIBRARIES)/egl
 LOCAL_MODULE_PATH_32 := $(TARGET_OUT)/lib/egl
 LOCAL_MODULE_PATH_64 := $(TARGET_OUT)/lib64/egl
 endif
+
 ifeq ($(TARGET_2ND_ARCH),)
 LOCAL_SRC_FILES    	 := $(TARGET)/libGLES_mali_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
 else
@@ -139,8 +140,13 @@ LOCAL_SHARED_LIBRARIES := \
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 30 && echo OK),OK)
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libc++ libc libdl libgralloctypes libhidlbase libm libutils
 endif
-ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 31 && echo OK),OK)
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -eq 31 && echo OK),OK)
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 arm.graphics-V1-ndk_platform libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
+endif
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 32 && echo OK),OK)
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 arm.graphics-V1-ndk libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
+LOCAL_CHECK_ELF_FILES := false
 endif
 
 include $(BUILD_PREBUILT)
