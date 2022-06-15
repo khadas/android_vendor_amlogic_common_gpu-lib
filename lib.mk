@@ -154,6 +154,10 @@ LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libc++ libc libcu
 LOCAL_CHECK_ELF_FILES := false
 endif
 
+LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL SPDX-license-identifier-GPL SPDX-license-identifier-LGPL-2.1 SPDX-license-identifier-MIT legacy_by_exception_only legacy_notice
+LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted
+LOCAL_NOTICE_FILE := $(LOCAL_PATH)/LICENSE
+
 include $(BUILD_PREBUILT)
 
 endif
