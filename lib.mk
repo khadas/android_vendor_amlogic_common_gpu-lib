@@ -143,7 +143,7 @@ LOCAL_SHARED_LIBRARIES := \
     libz
 
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 30 && echo OK),OK)
-LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libc++ libc libdl libgralloctypes libhidlbase libm libutils
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libc++ libc libcutils libdl libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
 endif
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -eq 31 && echo OK),OK)
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 arm.graphics-V1-ndk_platform libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
