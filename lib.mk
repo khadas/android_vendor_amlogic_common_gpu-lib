@@ -197,7 +197,7 @@ include $(BUILD_PREBUILT)
 endif
 
 # compile libgpudataproducer.so
-ifeq ($(shell test $(PLATFORM_VERSION) -ge 13 && echo OK),OK)
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 33 && echo OK),OK)
 include $(CLEAR_VARS)
 LOCAL_MODULE := libgpudataproducer
 LOCAL_MODULE_STEM := libgpudataproducer.so
