@@ -204,7 +204,7 @@ LOCAL_MODULE_STEM := libgpudataproducer.so
 LOCAL_MULTILIB := both
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-LOCAL_MODULE_PATH    := $(TARGET_OUT_VENDOR)
+LOCAL_MODULE_PATH    := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
 LOCAL_MODULE_PATH_32 := $(TARGET_OUT_VENDOR)/lib
 LOCAL_MODULE_PATH_64 := $(TARGET_OUT_VENDOR)/lib64
 
@@ -212,16 +212,19 @@ ifeq ($(TARGET_2ND_ARCH),)
 ifneq ($(ANDROID_BUILD_TYPE), 64)
 LOCAL_SRC_FILES    	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
 else
+ifeq ($(GPU_TYPE), gondul)
 LOCAL_SRC_FILES_64	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM).so
+endif
 endif
 else
 LOCAL_SRC_FILES_32       := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
+ifeq ($(GPU_TYPE), gondul)
 LOCAL_SRC_FILES_64	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM).so
+endif
 endif
 LOCAL_CHECK_ELF_FILES := false
 LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL SPDX-license-identifier-GPL SPDX-license-identifier-LGPL-2.1 SPDX-license-identifier-MIT legacy_by_exception_only legacy_notice legacy_proprietary
 LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted proprietary by_exception_only
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/LICENSE
-$(warning compile libgpudataproducer.so: LOCAL_MODULE_PATH_32 is $(LOCAL_MODULE_PATH_32)  LOCAL_SRC_FILES is $(LOCAL_SRC_FILES))
 include $(BUILD_PREBUILT)
 endif
