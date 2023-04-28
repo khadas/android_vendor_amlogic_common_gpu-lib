@@ -212,13 +212,13 @@ ifeq ($(TARGET_2ND_ARCH),)
 ifneq ($(ANDROID_BUILD_TYPE), 64)
 LOCAL_SRC_FILES    	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
 else
-ifeq ($(GPU_TYPE), gondul)
+ifneq ($(filter $(GPU_TYPE),valhall gondul),)
 LOCAL_SRC_FILES_64	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM).so
 endif
 endif
 else
 LOCAL_SRC_FILES_32       := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
-ifeq ($(GPU_TYPE), gondul)
+ifneq ($(filter $(GPU_TYPE),valhall gondul),)
 LOCAL_SRC_FILES_64	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM).so
 endif
 endif
