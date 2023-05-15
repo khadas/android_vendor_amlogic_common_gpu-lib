@@ -35,6 +35,12 @@ GPU_DRV_VERSION?=r6p1
 endif
 
 $(info "the value of PLATFORM_SDK_VERSION is $(PLATFORM_SDK_VERSION)")
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 34 && echo OK),OK)
+LOCAL_ANDROID_VERSION_NUM:=${GPU_DRV_VERSION}
+else
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -eq 33 && echo OK),OK)
+LOCAL_ANDROID_VERSION_NUM:=t-${GPU_DRV_VERSION}
+else
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 32 && echo OK),OK)
 LOCAL_ANDROID_VERSION_NUM:=t-${GPU_DRV_VERSION}
 else
@@ -72,6 +78,9 @@ endif
 endif
 endif
 endif
+endif
+endif
+$(info "the value of LOCAL_ANDROID_VERSION_NUM is $(LOCAL_ANDROID_VERSION_NUM)")
 
 ifneq ($(GPU_HW_VERSION),)
 LOCAL_ANDROID_VERSION_NUM:=${LOCAL_ANDROID_VERSION_NUM}-$(GPU_HW_VERSION)
@@ -146,15 +155,16 @@ ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 30 && echo OK),OK)
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libc++ libc libcutils libdl libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
 endif
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -eq 31 && echo OK),OK)
-LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 arm.graphics-V1-ndk_platform libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 arm.graphics-V1-ndk_platform libbase libbinder_ndk libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
 endif
-
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 32 && echo OK),OK)
-LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
-LOCAL_CHECK_ELF_FILES := false
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@4.0 libbase libbinder_ndk libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
+endif
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -eq 33 && echo OK),OK)
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.allocator-V1-ndk android.hardware.graphics.common-V3-ndk
 endif
 
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL SPDX-license-identifier-GPL SPDX-license-identifier-LGPL-2.1 SPDX-license-identifier-MIT legacy_by_exception_only legacy_notice legacy_proprietary
+LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL legacy_by_exception_only legacy_notice legacy_proprietary
 LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted proprietary by_exception_only
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/LICENSE
 
@@ -189,8 +199,7 @@ else
 LOCAL_SRC_FILES_32       := $(TARGET)/libGLES_mali_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM)-secure.so
 LOCAL_SRC_FILES_64	 := $(TARGET)/libGLES_mali_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM)-secure.so
 endif
-LOCAL_CHECK_ELF_FILES := false
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL SPDX-license-identifier-GPL SPDX-license-identifier-LGPL-2.1 SPDX-license-identifier-MIT legacy_by_exception_only legacy_notice legacy_proprietary
+LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL legacy_by_exception_only legacy_notice legacy_proprietary
 LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted proprietary by_exception_only
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/LICENSE
 include $(BUILD_PREBUILT)
@@ -208,6 +217,15 @@ LOCAL_MODULE_PATH    := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
 LOCAL_MODULE_PATH_32 := $(TARGET_OUT_VENDOR)/lib
 LOCAL_MODULE_PATH_64 := $(TARGET_OUT_VENDOR)/lib64
 
+LOCAL_SHARED_LIBRARIES := \
+    libc++ \
+    libc \
+    libdl \
+    libdmabufheap \
+    liblog \
+    libbase \
+    libm
+
 ifeq ($(TARGET_2ND_ARCH),)
 ifneq ($(ANDROID_BUILD_TYPE), 64)
 LOCAL_SRC_FILES    	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
@@ -222,8 +240,7 @@ ifneq ($(filter $(GPU_TYPE),valhall gondul),)
 LOCAL_SRC_FILES_64	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM).so
 endif
 endif
-LOCAL_CHECK_ELF_FILES := false
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL SPDX-license-identifier-GPL SPDX-license-identifier-LGPL-2.1 SPDX-license-identifier-MIT legacy_by_exception_only legacy_notice legacy_proprietary
+LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL legacy_by_exception_only legacy_notice legacy_proprietary
 LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted proprietary by_exception_only
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/LICENSE
 include $(BUILD_PREBUILT)
