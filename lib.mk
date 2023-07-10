@@ -163,6 +163,9 @@ endif
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -eq 33 && echo OK),OK)
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.allocator-V1-ndk android.hardware.graphics.common-V3-ndk
 endif
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -eq 34 && echo OK),OK)
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.allocator-V2-ndk android.hardware.graphics.common-V4-ndk
+endif
 
 LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL legacy_by_exception_only legacy_notice legacy_proprietary
 LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted proprietary by_exception_only
