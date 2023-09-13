@@ -179,39 +179,6 @@ include $(BUILD_PREBUILT)
 
 endif
 
-ifeq ($(BOARD_INSTALL_SECURE_GLES),true)
-include $(CLEAR_VARS)
-LOCAL_MODULE := libSecure.so
-
-LOCAL_MULTILIB := both
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
-LOCAL_MODULE_PATH    := $(TARGET_OUT_VENDOR)
-LOCAL_MODULE_PATH_32 := $(TARGET_OUT_VENDOR)/lib
-LOCAL_MODULE_PATH_64 := $(TARGET_OUT_VENDOR)/lib64
-else
-LOCAL_MODULE_PATH    := $(TARGET_OUT_SHARED_LIBRARIES)
-LOCAL_MODULE_PATH_32 := $(TARGET_OUT)/lib
-LOCAL_MODULE_PATH_64 := $(TARGET_OUT)/lib64
-endif
-
-ifeq ($(TARGET_2ND_ARCH),)
-ifneq ($(ANDROID_BUILD_TYPE), 64)
-LOCAL_SRC_FILES    	 := $(TARGET)/libGLES_mali_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM)-secure.so
-else
-LOCAL_SRC_FILES_64	 := $(TARGET)/libGLES_mali_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM)-secure.so
-endif
-else
-LOCAL_SRC_FILES_32       := $(TARGET)/libGLES_mali_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM)-secure.so
-LOCAL_SRC_FILES_64	 := $(TARGET)/libGLES_mali_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM)-secure.so
-endif
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL legacy_by_exception_only legacy_notice legacy_proprietary
-LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted proprietary by_exception_only
-LOCAL_NOTICE_FILE := $(LOCAL_PATH)/LICENSE
-include $(BUILD_PREBUILT)
-endif
-
 # compile libgpudataproducer.so
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 33 && echo OK),OK)
 ifeq ($(filter $(GPU_TYPE),mali450),)
