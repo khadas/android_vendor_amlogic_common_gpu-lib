@@ -167,7 +167,11 @@ ifeq ($(shell test $(PLATFORM_SDK_VERSION) -eq 34 && echo OK),OK)
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.allocator-V2-ndk android.hardware.graphics.common-V4-ndk
 endif
 
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL legacy_by_exception_only legacy_notice legacy_proprietary
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 34 && echo OK),OK)
+LOCAL_SHARED_LIBRARIES += android.hardware.graphics.common-V4-ndk android.hardware.graphics.mapper@4.0 libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
+endif
+
+LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL SPDX-license-identifier-GPL SPDX-license-identifier-LGPL-2.1 SPDX-license-identifier-MIT legacy_by_exception_only legacy_notice legacy_proprietary
 LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted proprietary by_exception_only
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/LICENSE
 
