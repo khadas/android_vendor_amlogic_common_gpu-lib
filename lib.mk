@@ -86,47 +86,6 @@ LOCAL_ANDROID_VERSION_NUM:=${LOCAL_ANDROID_VERSION_NUM}gralloc1
 endif
 
 LOCAL_PATH:= $(call my-dir)
-# compile arm.mali.platform-V2-ndk.so
-ifeq ($(GPU_CSF_BASED), true)
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := arm.mali.platform-V2-ndk
-    LOCAL_MODULE_STEM := arm.mali.platform-V2-ndk.so
-    LOCAL_MULTILIB := 32
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-    LOCAL_MODULE_PATH    := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
-    LOCAL_MODULE_PATH_32 := $(TARGET_OUT_VENDOR)/lib
-    LOCAL_MODULE_PATH_64 := $(TARGET_OUT_VENDOR)/lib64
-
-    LOCAL_SHARED_LIBRARIES := \
-        libc++ \
-        libc \
-        libdl \
-        liblog \
-        libbase \
-        libm \
-        libbinder_ndk \
-
-    ifeq ($(TARGET_2ND_ARCH),)
-        ifneq ($(ANDROID_BUILD_TYPE), 64)
-            LOCAL_SRC_FILES := $(TARGET)/arm.mali.platform-V2-ndk_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
-        else
-            ifneq ($(filter $(GPU_TYPE),valhall gondul),)
-                LOCAL_SRC_FILES_64 := $(TARGET)/arm.mali.platform-V2-ndk_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM).so
-            endif
-        endif
-    else
-        LOCAL_SRC_FILES_32 := $(TARGET)/arm.mali.platform-V2-ndk_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
-        ifneq ($(filter $(GPU_TYPE),valhall gondul),)
-            LOCAL_SRC_FILES_64  := $(TARGET)/arm.mali.platform-V2-ndk_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM).so
-        endif
-    endif
-    LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL legacy_by_exception_only legacy_notice legacy_proprietary
-    LOCAL_LICENSE_CONDITIONS := by_exception_only notice restricted proprietary by_exception_only
-    LOCAL_NOTICE_FILE := $(LOCAL_PATH)/LICENSE
-    include $(BUILD_PREBUILT)
-endif
-
 # compile libGLES_mali.so
 ifeq ($(MALI_LIB_PREBUILT),true)
 include $(CLEAR_VARS)
@@ -209,10 +168,6 @@ endif
 
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 34 && echo OK),OK)
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.common-V4-ndk android.hardware.graphics.mapper@4.0 libc++ libc libcutils libdl libdmabufheap libgralloctypes libhardware libhidlbase liblog libm libnativewindow libutils libz
-endif
-
-ifeq ($(GPU_CSF_BASED), true)
-LOCAL_SHARED_LIBRARIES += arm.mali.platform-V2-ndk
 endif
 
 LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-FTL SPDX-license-identifier-GPL SPDX-license-identifier-LGPL-2.1 SPDX-license-identifier-MIT legacy_by_exception_only legacy_notice legacy_proprietary
