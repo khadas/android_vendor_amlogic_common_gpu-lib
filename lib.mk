@@ -30,7 +30,6 @@ else
 GPU_DRV_VERSION?=r6p1
 endif
 
-$(info "the value of PLATFORM_SDK_VERSION is $(PLATFORM_SDK_VERSION)")
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 34 && echo OK),OK)
 LOCAL_ANDROID_VERSION_NUM:=${GPU_DRV_VERSION}
 else
@@ -122,9 +121,7 @@ endif
 
 #BOARD_INSTALL_VULKAN default is false
 #It should defined in $(TARGET_PRODUCT).mk if Vulkan is needed.
-$(info "the value of BOARD_INSTALL_VULKAN is $(BOARD_INSTALL_VULKAN). LOCAL_ANDROID_VERSION_NUM is $(LOCAL_ANDROID_VERSION_NUM)")
 ifneq ($(BOARD_INSTALL_VULKAN),false)
-$(info TARGET_PRODUCT is $(TARGET_PRODUCT))
 LOCAL_POST_INSTALL_CMD = \
 	if [ ! -d $(dir $(LOCAL_INSTALLED_MODULE))/../hw ]; then \
 		mkdir -p $(dir $(LOCAL_INSTALLED_MODULE))/../hw; \
