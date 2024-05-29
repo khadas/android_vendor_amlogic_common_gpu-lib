@@ -131,7 +131,7 @@ LOCAL_POST_INSTALL_CMD = \
 	ln -sf ../egl/$(notdir $(LOCAL_INSTALLED_MODULE)) ./vulkan.amlogic.so;
 endif
 
-ifeq ($(BOARD_INSTALL_OPENCL),true)
+ifeq ($(GPU_USE_OPENCL), -opencl)
 #related to vulkan.amlogic.so
 LOCAL_POST_INSTALL_CMD += \
 	cd ..; \
