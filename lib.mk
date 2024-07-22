@@ -207,7 +207,7 @@ endif
 endif
 else
 LOCAL_SRC_FILES_32       := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_32-$(LOCAL_ANDROID_VERSION_NUM).so
-ifneq ($(filter $(GPU_TYPE),valhall gondul),)
+ifneq ($(filter $(GPU_TYPE),valhall gondul vale),)
 LOCAL_SRC_FILES_64	 := $(TARGET)/libgpudataproducer_$(GPU_TARGET_PLATFORM)_64-$(LOCAL_ANDROID_VERSION_NUM).so
 endif
 endif
